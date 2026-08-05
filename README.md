@@ -40,17 +40,18 @@ To deploy the database and run the practice scripts locally, follow these steps.
 - sqlite3 
 
 # 1. Cloning a repository:
-``` Bash
-git clone [https://github.com/Disha-aa/sql-roadmap-learning.git](https://github.com/Disha-aa/sql-roadmap-learning.git)
-cd sql-roadmap-learning
+```bash
+git clone https://github.com/Disha-aa/sql-roadmap.git
+cd sql-roadmap
 ```
+
 # 2. Initializing and Populating the Database
 The database is generated from code (DDL + DML) with a single command:
-``` Bash
+```bash
 sqlite3 db/bank.db < db/schema.sql && sqlite3 db/bank.db < db/seed.sql
 ```
 
 # 3. Launching the SQLite Interactive Console
-``` Bash
+```bash
 sqlite3 db/bank.db
 ```
