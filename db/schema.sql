@@ -7,6 +7,60 @@ DROP TABLE IF EXISTS customer;
 DROP TABLE IF EXISTS employee;
 DROP TABLE IF EXISTS department;
 DROP TABLE IF EXISTS branch;
+DROP TABLE IF EXISTS branch_feedback;
+DROP TABLE IF EXISTS credit_card;
+DROP TABLE IF EXISTS loan;
+
+CREATE TABLE loan (
+    loan_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    account_id INT NOT NULL,
+    cust_id INT NOT NULL,
+    loan_type VARCHAR(20) NOT NULL,
+    principal_amount DECIMAL(12,2) NOT NULL,
+    interest_rate DECIMAL(5,2) NOT NULL,
+    term_months INT NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE,
+    monthly_payment DECIMAL(10,2) NOT NULL,
+    status VARCHAR(10) CHECK(status IN ('ACTIVE', 'PAID', 'DEFAULTED', 'APPROVED')),
+    approved_by_emp_id INT,
+    FOREIGN KEY (account_id) REFERENCES account (account_id),
+    FOREIGN KEY (cust_id) REFERENCES customer (cust_id),
+    FOREIGN KEY (approved_by_emp_id) REFERENCES employee (emp_id)
+);
+
+CREATE TABLE credit_card (
+    card_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    cust_id INT NOT NULL,
+    account_id INT,
+    card_number VARCHAR(16) NOT NULL UNIQUE,
+    card_type VARCHAR(20) NOT NULL,
+    credit_limit DECIMAL(10,2) NOT NULL,
+    current_balance DECIMAL(10,2) DEFAULT 0.00,
+    available_credit DECIMAL(10,2) NOT NULL,
+    expiry_date DATE NOT NULL,
+    status VARCHAR(10) CHECK(status IN ('ACTIVE', 'BLOCKED', 'EXPIRED', 'CLOSED')),
+    issued_by_branch_id INT,
+    issued_by_emp_id INT,
+    FOREIGN KEY (cust_id) REFERENCES customer (cust_id),
+    FOREIGN KEY (account_id) REFERENCES account (account_id),
+    FOREIGN KEY (issued_by_branch_id) REFERENCES branch (branch_id),
+    FOREIGN KEY (issued_by_emp_id) REFERENCES employee (emp_id)
+);
+
+CREATE TABLE branch_feedback (
+    feedback_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    branch_id INT NOT NULL,
+    cust_id INT,
+    emp_id INT,
+    rating INT CHECK(rating BETWEEN 1 AND 5),
+    comment TEXT,
+    feedback_date DATE NOT NULL,
+    feedback_type VARCHAR(20) CHECK(feedback_type IN ('COMPLAINT', 'COMPLIMENT', 'SUGGESTION', 'GENERAL')),
+    FOREIGN KEY (branch_id) REFERENCES branch (branch_id),
+    FOREIGN KEY (cust_id) REFERENCES customer (cust_id),
+    FOREIGN KEY (emp_id) REFERENCES employee (emp_id)
+);
 
 CREATE TABLE branch (
     branch_id INTEGER PRIMARY KEY AUTOINCREMENT,
