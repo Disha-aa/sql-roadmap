@@ -1,0 +1,9 @@
+SELECT setval(pg_get_serial_sequence('branch', 'branch_id'), COALESCE(max(branch_id), 1)) FROM branch;
+SELECT setval(pg_get_serial_sequence('department', 'dept_id'), COALESCE(max(dept_id), 1)) FROM department;
+SELECT setval(pg_get_serial_sequence('employee', 'emp_id'), COALESCE(max(emp_id), 1)) FROM employee;
+SELECT setval(pg_get_serial_sequence('customer', 'cust_id'), COALESCE(max(cust_id), 1)) FROM customer;
+SELECT setval(pg_get_serial_sequence('account', 'account_id'), COALESCE(max(account_id), 1)) FROM account;
+SELECT setval(pg_get_serial_sequence('acc_transaction', 'txn_id'), COALESCE(max(txn_id), 1)) FROM acc_transaction;
+SELECT setval(pg_get_serial_sequence('loan', 'loan_id'), COALESCE(max(loan_id), 1)) FROM loan;
+SELECT setval(pg_get_serial_sequence('credit_card', 'card_id'), COALESCE(max(card_id), 1)) FROM credit_card;
+SELECT setval(pg_get_serial_sequence('branch_feedback', 'feedback_id'), COALESCE(max(feedback_id), 1)) FROM branch_feedback;
