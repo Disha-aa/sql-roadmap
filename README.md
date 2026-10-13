@@ -1,7 +1,8 @@
 # SQL & Relational Databases Practice
 
+[![Database](https://img.shields.io/badge/Database-PostgreSQL_16-336791?style=for-the-badge&logo=postgresql&logoColor=white)](#)
 [![Database](https://img.shields.io/badge/Database-SQLite3-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](#)
-[![Future](https://img.shields.io/badge/Planned-PostgreSQL_%2B_Docker-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](#)
+[![Container](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](#)
 [![Roadmap](https://img.shields.io/badge/Roadmap-Backend_Developer-orange?style=for-the-badge)](#)
 
 A hands-on repository for learning how to design relational databases and write complex SQL queries. The project is based on the classic “Bank DB” domain (bank accounts, customers, branches, employee hierarchy, and financial transactions).
@@ -10,9 +11,12 @@ A hands-on repository for learning how to design relational databases and write 
 
 ## Tech Stack & Roadmap
 
-- [x] **SQLite3** — the current DBMS for practicing basic and advanced SQL without the overhead of server infrastructure.
-- [ ] **PostgreSQL** — planned transition to a full-fledged RDBMS (joins, CTEs, indexes, query plan optimization using `EXPLAIN ANALYZE`).
-- [ ] **Docker & Docker Compose** — deploying PostgreSQL in an isolated container with a volume mount for data persistence.
+- [x] **SQLite3** — lightweight embedded engine for initial prototyping and offline practice.
+- [x] **Docker & Docker Compose** — isolated PostgreSQL 16 container with persistent volumes and healthcheck.
+- [x] **PostgreSQL 16 Migration** — full production-ready RDBMS migration (strict FK order, `SERIAL` keys, `NUMERIC` financial types, sequence alignment).
+- [x] **Data Processing & Transformations (Chapter 7)** — robust string parsing, edge-case sanitization (`TRIM`, `STRPOS`), and PII data masking (`data_processing/pii_masking.sql`).
+- [ ] **Advanced Querying** — window functions, CTEs, complex aggregations (`GROUPING SETS`, `ROLLUP`).
+- [ ] **Performance & Optimization** — indexing strategies, execution plans with `EXPLAIN (ANALYZE, BUFFERS)`.
 
 ---
 
@@ -154,27 +158,59 @@ erDiagram
     CUSTOMER    o|--o{ BRANCH_FEEDBACK  : "cust_id"
     EMPLOYEE    o|--o{ BRANCH_FEEDBACK  : "emp_id"
 ```
-# Quick start
 
-To deploy the database and run the practice scripts locally, follow these steps.
+---
 
-# Requirements:
-- git
-- sqlite3 
+## Quick Start
 
-# 1. Cloning a repository:
-```bash
-git clone https://github.com/Disha-aa/sql-roadmap.git
-cd sql-roadmap
-```
+### 1. PostgreSQL 16 via Docker Compose (Primary Environment)
 
-# 2. Initializing and Populating the Database
-The database is generated from code (DDL + DML) with a single command:
+1. **Start the database container:**
+   ```bash
+   docker compose up -d
+   ```
+
+2. **Initialize schema, seed 1200+ records, and sync sequence counters:**
+   ```bash
+   cat db/schema_pg.sql db/seed.sql db/sync_sequences.sql | docker exec -i local_postgres psql -U dev_user -d bank_dev
+   ```
+
+3. **Connect to interactive `psql` console:**
+   ```bash
+   docker exec -it local_postgres psql -U dev_user -d bank_dev
+   ```
+
+4. **Fast execution alias (recommended):**
+   ```bash
+   alias r="docker exec -i local_postgres psql -U dev_user -d bank_dev < data_processing/pii_masking.sql"
+   ```
+
+---
+
+### 2. SQLite3 (Embedded / Offline Practice)
+
 ```bash
 sqlite3 db/bank.db < db/schema.sql && sqlite3 db/bank.db < db/seed.sql
+sqlite3 db/bank.db
 ```
 
-# 3. Launching the SQLite Interactive Console
-```bash
-sqlite3 db/bank.db
+---
+
+## Repository Structure
+
+```text
+.
+├── 01_basics/            # Basic query syntax, filtering, and ordering
+├── 02_joins/             # Multi-table joins (INNER, LEFT, CROSS, self-joins)
+├── 03_sets/              # Set theory operations (UNION, INTERSECT, EXCEPT)
+├── data_processing/      # Data manipulation (strings, dates, numbers, PII masking)
+│   └── pii_masking.sql   # Production-grade PII masking & address parsing
+├── db/
+│   ├── bank.db           # Pre-built SQLite database
+│   ├── schema.sql        # SQLite DDL schema
+│   ├── schema_pg.sql     # PostgreSQL DDL schema (SERIAL keys, strict FKs, NUMERIC)
+│   ├── seed.sql          # 1200+ rows dataset (branches, customers, accounts, loans)
+│   └── sync_sequences.sql # Sequence alignment script for PostgreSQL
+├── docker-compose.yml    # Isolated PostgreSQL 16 service definition
+└── README.md
 ```
