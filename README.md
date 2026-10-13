@@ -14,7 +14,7 @@ A hands-on repository for learning how to design relational databases and write 
 - [x] **SQLite3** — lightweight embedded engine for initial prototyping and offline practice.
 - [x] **Docker & Docker Compose** — isolated PostgreSQL 16 container with persistent volumes and healthcheck.
 - [x] **PostgreSQL 16 Migration** — full production-ready RDBMS migration (strict FK order, `SERIAL` keys, `NUMERIC` financial types, sequence alignment).
-- [x] **Data Processing & Transformations (Chapter 7)** — robust string parsing, edge-case sanitization (`TRIM`, `STRPOS`), and PII data masking (`data_processing/pii_masking.sql`).
+- [x] **Data Processing & Transformations (Chapter 7)** — robust string parsing, edge-case sanitization (`TRIM`, `STRPOS`), and PII data masking (`04_data_processing/pii_masking.sql`).
 - [ ] **Advanced Querying** — window functions, CTEs, complex aggregations (`GROUPING SETS`, `ROLLUP`).
 - [ ] **Performance & Optimization** — indexing strategies, execution plans with `EXPLAIN (ANALYZE, BUFFERS)`.
 
@@ -182,7 +182,7 @@ erDiagram
 
 4. **Fast execution alias (recommended):**
    ```bash
-   alias r="docker exec -i local_postgres psql -U dev_user -d bank_dev < data_processing/pii_masking.sql"
+   alias r="docker exec -i local_postgres psql -U dev_user -d bank_dev < 04_data_processing/pii_masking.sql"
    ```
 
 ---
@@ -203,7 +203,7 @@ sqlite3 db/bank.db
 ├── 01_basics/            # Basic query syntax, filtering, and ordering
 ├── 02_joins/             # Multi-table joins (INNER, LEFT, CROSS, self-joins)
 ├── 03_sets/              # Set theory operations (UNION, INTERSECT, EXCEPT)
-├── data_processing/      # Data manipulation (strings, dates, numbers, PII masking)
+├── 04_data_processing/      # Data manipulation (strings, dates, numbers, PII masking)
 │   └── pii_masking.sql   # Production-grade PII masking & address parsing
 ├── db/
 │   ├── bank.db           # Pre-built SQLite database
