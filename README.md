@@ -203,8 +203,11 @@ sqlite3 db/bank.db
 ├── 01_basics/            # Basic query syntax, filtering, and ordering
 ├── 02_joins/             # Multi-table joins (INNER, LEFT, CROSS, self-joins)
 ├── 03_sets/              # Set theory operations (UNION, INTERSECT, EXCEPT)
-├── 04_data_processing/      # Data manipulation (strings, dates, numbers, PII masking)
-│   └── pii_masking.sql   # Production-grade PII masking & address parsing
+├── 04_data_processing/   # Data manipulation (strings, dates, numbers, PII masking)
+│   ├── pii_masking.sql        # Task 1: PII masking & safe address parsing
+│   ├── tenure_calc.sql        # Task 2: Precise employee tenure & anniversary calculation
+│   ├── billing_fee.sql        # Task 3: Fee calculation & roundoff error audit
+│   └── account_passport.sql   # Task 4: Flat account passport with zero-division guard
 ├── db/
 │   ├── bank.db           # Pre-built SQLite database
 │   ├── schema.sql        # SQLite DDL schema
