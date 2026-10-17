@@ -208,6 +208,8 @@ sqlite3 db/bank.db
 │   ├── tenure_calc.sql        # Task 2: Precise employee tenure & anniversary calculation
 │   ├── billing_fee.sql        # Task 3: Fee calculation & roundoff error audit
 │   └── account_passport.sql   # Task 4: Flat account passport with zero-division guard
+├── 05_grouping/          # Aggregations & Grouping (Chapter 8: GROUP BY, HAVING, aggregates)
+│   └── liquidity_audit.sql    # Task 1: Liquidity audit by branch and product
 ├── db/
 │   ├── bank.db           # Pre-built SQLite database
 │   ├── schema.sql        # SQLite DDL schema
